@@ -21,7 +21,7 @@ jobs:
 
       # Run Cucumber tests against Selenium Grid on EC2
       - name: Run Cucumber Selenium tests
-        run: mvn clean test -Dcucumber.options="--plugin html:target/cucumber-report.html --plugin json:target/cucumber-report.json --plugin pretty" -Dselenium.grid.url=http://13.235.104.41:4444/wd/hub
+        run: mvn clean test -Dcucumber.options="--plugin html:target/cucumber-report.html --plugin json:target/cucumber-report.json --plugin pretty" -Dselenium.grid.url=http://13.235.104.41:4444/
 
       # Upload HTML report
       - name: Upload Cucumber HTML Report
