@@ -1,33 +1,38 @@
-name: Selenium Tests with Allure Report
+name: Selenium Grid Cucumber Tests
 
 on:
   workflow_dispatch:   # Manual trigger
 
 jobs:
-  selenium-tests:
+  cucumber-tests:
     runs-on: ubuntu-latest
 
     steps:
+      # Checkout your repo
       - name: Checkout code
         uses: actions/checkout@v4
 
+      # Set up Java (adjust version if needed)
       - name: Set up JDK 17
         uses: actions/setup-java@v4
         with:
           java-version: '17'
           distribution: 'temurin'
 
-      # Run your tests (ensure allure adapter is configured in pom.xml/gradle)
-      - name: Run Selenium tests
-        run: mvn clean test -Dselenium.grid.url=http://13.235.104.41:4444/
+      # Run Cucumber tests against Selenium Grid on EC2
+      - name: Run Cucumber Selenium tests
+        run: mvn clean test -Dcucumber.options="--plugin html:target/cucumber-report.html --plugin json:target/cucumber-report.json --plugin pretty" -Dselenium.grid.url=http://13.235.104.41:4444/wd/hub
 
-      # Generate Allure report
-      - name: Generate Allure Report
-        run: mvn allure:report
-
-      # Upload Allure results as artifact
-      - name: Upload Allure Report
+      # Upload HTML report
+      - name: Upload Cucumber HTML Report
         uses: actions/upload-artifact@v4
         with:
-          name: allure-report
-          path: target/site/allure-maven-plugin/**
+          name: cucumber-html-report
+          path: target/cucumber-report.html
+
+      # Upload JSON report (optional)
+      - name: Upload Cucumber JSON Report
+        uses: actions/upload-artifact@v4
+        with:
+          name: cucumber-json-report
+          path: target/cucumber-report.json
