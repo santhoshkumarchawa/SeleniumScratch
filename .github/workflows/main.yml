@@ -29,6 +29,7 @@ jobs:
         with:
           name: cucumber-html-report
           path: target/cucumber-report.html
+          retention-days: 1
 
       # Send report via email
       - name: Email Cucumber Report
@@ -39,7 +40,7 @@ jobs:
           username: ${{ secrets.EMAIL_USERNAME }}
           password: ${{ secrets.EMAIL_PASSWORD }}
           subject: "Cucumber Test Report"
-          to: santhoshkumarchawa@gmail.com
+          to: santhoshchawa2706@gmail.com
           from: "GitHub Actions <${{ secrets.EMAIL_USERNAME }}>"
           body: |
             Hello,
@@ -49,3 +50,6 @@ jobs:
             Regards,
             GitHub Actions
           attachments: target/cucumber-report.html
+
+      - name: Cleanup local reports
+        run: rm -rf reports/cucumber-html
