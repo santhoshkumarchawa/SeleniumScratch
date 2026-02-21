@@ -1,7 +1,9 @@
 name: Regression
 
 on:
-  workflow_dispatch:   # Manual trigger
+  workflow_dispatch:
+  schedule:
+    - cron: "*/3 * * * *"
 
 jobs:
   cucumber-tests:
